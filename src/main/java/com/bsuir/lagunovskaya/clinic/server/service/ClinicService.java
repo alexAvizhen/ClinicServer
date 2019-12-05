@@ -59,4 +59,12 @@ public class ClinicService {
         clinicDepartment.getDoctors().add(createdDoctor);
         return createdDoctor;
     }
+
+    public void createOrUpdateDepartment(ClinicDepartment clinicDepartment) {
+        if (clinicDepartment.getId() == null) {
+            clinicDepartmentDAO.createClinicDepartment(clinicDepartment);
+        } else {
+            clinicDepartmentDAO.updateClinicDepartment(clinicDepartment);
+        }
+    }
 }

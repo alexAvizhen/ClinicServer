@@ -8,6 +8,8 @@ public interface ClinicDepartmentDAO {
 
     ClinicDepartment createClinicDepartment(ClinicDepartment clinicDepartment);
 
+    ClinicDepartment updateClinicDepartment(ClinicDepartment clinicDepartment);
+
     ClinicDepartment getClinicDepartmentById(Integer id);
 
     ClinicDepartment getClinicDepartmentByName(String name);

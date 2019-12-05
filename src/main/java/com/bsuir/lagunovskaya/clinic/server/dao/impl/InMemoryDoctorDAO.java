@@ -53,7 +53,7 @@ public class InMemoryDoctorDAO implements DoctorDAO {
         } else {
             throw new UnsupportedOperationException("Doctor with id " + doctor.getId() + " was not detected");
         }
-        return null;
+        return doctor;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.bsuir.lagunovskaya.clinic.server.service;
 import com.bsuir.lagunovskaya.clinic.communication.ClientCommand;
 import com.bsuir.lagunovskaya.clinic.communication.ServerResponse;
 import com.bsuir.lagunovskaya.clinic.server.processor.CommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdateDepartmentCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetAllClinicDepartmentsCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetClinicDepartmentByNameCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetUserByLoginCommandProcessor;
@@ -21,6 +22,7 @@ public class ClientCommandsManager {
         commandProcessors.add(new GetAllClinicDepartmentsCommandProcessor());
         commandProcessors.add(new GetClinicDepartmentByNameCommandProcessor());
         commandProcessors.add(new GetUserByLoginCommandProcessor());
+        commandProcessors.add(new CreateOrUpdateDepartmentCommandProcessor());
     }
 
     public ServerResponse processCommand(ClientCommand clientCommand) {
