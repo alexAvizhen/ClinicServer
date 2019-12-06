@@ -10,6 +10,7 @@ import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
 import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.PatientDAO;
 
+import javax.print.Doc;
 import java.util.List;
 
 public class ClinicService {
@@ -66,5 +67,33 @@ public class ClinicService {
         } else {
             clinicDepartmentDAO.updateClinicDepartment(clinicDepartment);
         }
+    }
+
+    public void createOrUpdateDoctor(Doctor doctor) {
+        if (doctor.getId() == null) {
+            createDoctor(doctor);
+        } else {
+            updateDoctor(doctor);
+        }
+    }
+
+    private void createDoctor(Doctor doctor) {
+        doctorDAO.createDoctor(doctor);
+        ClinicDepartment doctorClinicDepartment = doctor.getClinicDepartment();
+        doctorClinicDepartment.getDoctors().add(doctor);
+
+        clinicDepartmentDAO.updateClinicDepartment(doctorClinicDepartment);
+    }
+
+    private void updateDoctor(Doctor doctor) {
+        Doctor oldDoctor = doctorDAO.getDoctorById(doctor.getId());
+        ClinicDepartment oldDoctorClinicDepartment = oldDoctor.getClinicDepartment();
+        oldDoctorClinicDepartment.getDoctors().remove(oldDoctor);
+        clinicDepartmentDAO.updateClinicDepartment(oldDoctorClinicDepartment);
+        doctorDAO.updateDoctor(doctor);
+        ClinicDepartment newDoctorClinicDepartment = doctor.getClinicDepartment();
+        newDoctorClinicDepartment.getDoctors().add(doctor);
+        clinicDepartmentDAO.updateClinicDepartment(newDoctorClinicDepartment);
+
     }
 }
