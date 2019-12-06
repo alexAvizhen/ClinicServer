@@ -85,18 +85,12 @@ public class ClinicServer {
         Clinic clinic = clinicService.createClinic();
         ClinicDepartment clinicDepartmentOne = clinicService.createClinicDepartment(clinic, "Терапевтическое 1", Arrays.asList("Лидская", "Неманская"));
         ClinicDepartment clinicDepartmentTwo = clinicService.createClinicDepartment(clinic, "Терапевтическое 2", Arrays.asList("Лидская2", "Неманская2"));
-        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentOne));
-        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentOne));
-        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentOne));
-        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentTwo));
-        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentTwo));
-        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentTwo));
-        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentOne));
-        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentOne));
-        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentOne));
-        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentTwo));
-        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentTwo));
-        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentTwo));
+        for (int i = 0; i < 15; i++) {
+            clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentOne));
+            clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentTwo));
+            clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentOne));
+            clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentTwo));
+        }
 
         Doctor doctor = new Doctor("t", "t", clinicDepartmentOne);
         clinicService.createOrUpdateDoctor(doctor);
@@ -104,14 +98,14 @@ public class ClinicServer {
 
     private static Integer doctorsCounter = 1;
     private static Doctor generateDoctor(ClinicDepartment clinicDepartment) {
-        String testStr = "test_doc" + doctorsCounter;
+        String testStr = "Доктор" + doctorsCounter;
         doctorsCounter++;
         return new Doctor(testStr, testStr, clinicDepartment);
     }
 
     private static Integer patientsCounter = 1;
     private static Patient generatePatient(ClinicDepartment clinicDepartment) {
-        String testStr = "test_pat" + patientsCounter;
+        String testStr = "Пациент" + patientsCounter;
         patientsCounter++;
         return new Patient(testStr, testStr, clinicDepartment);
     }
