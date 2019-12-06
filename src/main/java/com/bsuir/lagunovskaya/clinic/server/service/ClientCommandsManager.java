@@ -5,6 +5,7 @@ import com.bsuir.lagunovskaya.clinic.communication.ServerResponse;
 import com.bsuir.lagunovskaya.clinic.server.processor.CommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdateDepartmentCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdateDoctorCommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdatePatientCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetAllClinicDepartmentsCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetClinicDepartmentByNameCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetUserByLoginCommandProcessor;
@@ -25,6 +26,7 @@ public class ClientCommandsManager {
         commandProcessors.add(new GetUserByLoginCommandProcessor());
         commandProcessors.add(new CreateOrUpdateDepartmentCommandProcessor());
         commandProcessors.add(new CreateOrUpdateDoctorCommandProcessor());
+        commandProcessors.add(new CreateOrUpdatePatientCommandProcessor());
     }
 
     public ServerResponse processCommand(ClientCommand clientCommand) {

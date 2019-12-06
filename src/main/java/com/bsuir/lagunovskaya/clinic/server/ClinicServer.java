@@ -2,6 +2,8 @@ package com.bsuir.lagunovskaya.clinic.server;
 
 import com.bsuir.lagunovskaya.clinic.communication.entity.Clinic;
 import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
+import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
+import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
 import com.bsuir.lagunovskaya.clinic.server.handler.ClinicClientHandler;
 import com.bsuir.lagunovskaya.clinic.server.service.ClinicService;
 
@@ -83,20 +85,34 @@ public class ClinicServer {
         Clinic clinic = clinicService.createClinic();
         ClinicDepartment clinicDepartmentOne = clinicService.createClinicDepartment(clinic, "Терапевтическое 1", Arrays.asList("Лидская", "Неманская"));
         ClinicDepartment clinicDepartmentTwo = clinicService.createClinicDepartment(clinic, "Терапевтическое 2", Arrays.asList("Лидская2", "Неманская2"));
-        clinicService.createDoctor(1, clinicDepartmentOne);
-        clinicService.createDoctor(2, clinicDepartmentOne);
-        clinicService.createDoctor(3, clinicDepartmentOne);
-        clinicService.createPatient(1, clinicDepartmentOne);
-        clinicService.createPatient(2, clinicDepartmentOne);
-        clinicService.createPatient(3, clinicDepartmentOne);
+        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentOne));
+        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentOne));
+        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentOne));
+        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentTwo));
+        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentTwo));
+        clinicService.createOrUpdateDoctor(generateDoctor(clinicDepartmentTwo));
+        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentOne));
+        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentOne));
+        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentOne));
+        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentTwo));
+        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentTwo));
+        clinicService.createOrUpdatePatient(generatePatient(clinicDepartmentTwo));
 
-        clinicService.createDoctor(4, clinicDepartmentTwo);
-        clinicService.createDoctor(5, clinicDepartmentTwo);
-        clinicService.createDoctor(6, clinicDepartmentTwo);
-        clinicService.createPatient(4, clinicDepartmentTwo);
-        clinicService.createPatient(5, clinicDepartmentTwo);
-        clinicService.createPatient(6, clinicDepartmentTwo);
+        Doctor doctor = new Doctor("t", "t", clinicDepartmentOne);
+        clinicService.createOrUpdateDoctor(doctor);
+    }
 
-        clinicService.createDoctor(clinicDepartmentOne);
+    private static Integer doctorsCounter = 1;
+    private static Doctor generateDoctor(ClinicDepartment clinicDepartment) {
+        String testStr = "test_doc" + doctorsCounter;
+        doctorsCounter++;
+        return new Doctor(testStr, testStr, clinicDepartment);
+    }
+
+    private static Integer patientsCounter = 1;
+    private static Patient generatePatient(ClinicDepartment clinicDepartment) {
+        String testStr = "test_pat" + patientsCounter;
+        patientsCounter++;
+        return new Patient(testStr, testStr, clinicDepartment);
     }
 }

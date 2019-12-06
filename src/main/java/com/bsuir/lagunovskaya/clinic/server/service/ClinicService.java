@@ -1,16 +1,15 @@
 package com.bsuir.lagunovskaya.clinic.server.service;
 
+import com.bsuir.lagunovskaya.clinic.communication.entity.Clinic;
+import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
 import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDepartmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
-import com.bsuir.lagunovskaya.clinic.communication.entity.Clinic;
-import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
 import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.PatientDAO;
 
-import javax.print.Doc;
 import java.util.List;
 
 public class ClinicService {
@@ -35,30 +34,6 @@ public class ClinicService {
         ClinicDepartment createdClinicDep = clinicDepartmentDAO.createClinicDepartment(clinicDepartment);
         clinic.getClinicDepartments().add(createdClinicDep);
         return createdClinicDep;
-    }
-
-    public Doctor createDoctor(Integer index, ClinicDepartment clinicDepartment) {
-        String testStr = "test_doc" + index;
-        Doctor doctor = new Doctor(testStr, testStr, clinicDepartment);
-        Doctor createdDoctor = doctorDAO.createDoctor(doctor);
-        clinicDepartment.getDoctors().add(createdDoctor);
-        return createdDoctor;
-    }
-
-    public Patient createPatient(Integer index, ClinicDepartment clinicDepartment) {
-        String testStr = "test_pat" + index;
-        Patient patient = new Patient(testStr, testStr, clinicDepartment);
-        Patient createdPatient = patientDAO.createPatient(patient);
-        clinicDepartment.getPatients().add(createdPatient);
-        return createdPatient;
-    }
-
-    public Doctor createDoctor(ClinicDepartment clinicDepartment) {
-        String testStr = "t";
-        Doctor doctor = new Doctor(testStr, testStr, clinicDepartment);
-        Doctor createdDoctor = doctorDAO.createDoctor(doctor);
-        clinicDepartment.getDoctors().add(createdDoctor);
-        return createdDoctor;
     }
 
     public void createOrUpdateDepartment(ClinicDepartment clinicDepartment) {
@@ -95,5 +70,32 @@ public class ClinicService {
         newDoctorClinicDepartment.getDoctors().add(doctor);
         clinicDepartmentDAO.updateClinicDepartment(newDoctorClinicDepartment);
 
+    }
+
+    public void createOrUpdatePatient(Patient patient) {
+        if (patient.getId() == null) {
+            createPatient(patient);
+        } else {
+            updatePatient(patient);
+        }
+    }
+
+    private void updatePatient(Patient patient) {
+        Patient oldPatient = patientDAO.getPatientById(patient.getId());
+        ClinicDepartment oldPatientClinicDepartment = oldPatient.getClinicDepartment();
+        oldPatientClinicDepartment.getPatients().remove(oldPatient);
+        clinicDepartmentDAO.updateClinicDepartment(oldPatientClinicDepartment);
+        patientDAO.updatePatient(patient);
+        ClinicDepartment newPatientClinicDepartment = patient.getClinicDepartment();
+        newPatientClinicDepartment.getPatients().add(patient);
+        clinicDepartmentDAO.updateClinicDepartment(newPatientClinicDepartment);
+    }
+
+    private void createPatient(Patient patient) {
+        patientDAO.createPatient(patient);
+        ClinicDepartment patientClinicDepartment = patient.getClinicDepartment();
+        patientClinicDepartment.getPatients().add(patient);
+
+        clinicDepartmentDAO.updateClinicDepartment(patientClinicDepartment);
     }
 }
