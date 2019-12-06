@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -100,13 +101,24 @@ public class ClinicServer {
     private static Doctor generateDoctor(ClinicDepartment clinicDepartment) {
         String testStr = "Доктор" + doctorsCounter;
         doctorsCounter++;
-        return new Doctor(testStr, testStr, clinicDepartment);
+        Doctor doctor = new Doctor(testStr, testStr, clinicDepartment);
+        doctor.setPhoneNumber("1234567");
+        doctor.setName(testStr);
+        doctor.setSurname(testStr);
+        doctor.setBirthDate(new Date());
+        return doctor;
     }
 
     private static Integer patientsCounter = 1;
     private static Patient generatePatient(ClinicDepartment clinicDepartment) {
         String testStr = "Пациент" + patientsCounter;
         patientsCounter++;
-        return new Patient(testStr, testStr, clinicDepartment);
+        Patient patient = new Patient(testStr, testStr, clinicDepartment);
+        patient.setPhoneNumber("1234567");
+        patient.setName(testStr);
+        patient.setSurname(testStr);
+        patient.setBirthDate(new Date());
+        patient.setAddress(testStr);
+        return patient;
     }
 }

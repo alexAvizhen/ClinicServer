@@ -10,6 +10,8 @@ import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetAllClinicDepartmen
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetClinicDepartmentByNameCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetUserByLoginCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.LoginCommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.processor.impl.RemoveDoctorByIdCommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.processor.impl.RemovePatientByIdCommandProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class ClientCommandsManager {
         commandProcessors.add(new CreateOrUpdateDepartmentCommandProcessor());
         commandProcessors.add(new CreateOrUpdateDoctorCommandProcessor());
         commandProcessors.add(new CreateOrUpdatePatientCommandProcessor());
+        commandProcessors.add(new RemovePatientByIdCommandProcessor());
+        commandProcessors.add(new RemoveDoctorByIdCommandProcessor());
     }
 
     public ServerResponse processCommand(ClientCommand clientCommand) {

@@ -98,4 +98,24 @@ public class ClinicService {
 
         clinicDepartmentDAO.updateClinicDepartment(patientClinicDepartment);
     }
+
+    public void removeDoctorById(Integer doctorId) {
+        Doctor doctorById = doctorDAO.getDoctorById(doctorId);
+        if (doctorById != null) {
+            ClinicDepartment doctorClinicDepartment = doctorById.getClinicDepartment();
+            doctorClinicDepartment.getDoctors().remove(doctorById);
+            clinicDepartmentDAO.updateClinicDepartment(doctorClinicDepartment);
+            doctorDAO.deleteDoctorById(doctorById.getId());
+        }
+    }
+
+    public void removePatientById(Integer patientId) {
+        Patient patientById = patientDAO.getPatientById(patientId);
+        if (patientById != null) {
+            ClinicDepartment patientClinicDepartment = patientById.getClinicDepartment();
+            patientClinicDepartment.getPatients().remove(patientById);
+            clinicDepartmentDAO.updateClinicDepartment(patientClinicDepartment);
+            patientDAO.deletePatientById(patientById.getId());
+        }
+    }
 }
