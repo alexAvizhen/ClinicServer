@@ -8,27 +8,30 @@ import com.bsuir.lagunovskaya.clinic.server.handler.ClinicClientHandler;
 import com.bsuir.lagunovskaya.clinic.server.service.ClinicService;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClinicServer {
 
-    private static ExecutorService clintExecutorService = Executors.newFixedThreadPool(10);
+    private static Properties properties = new Properties();
 
     public static void main(String[] args) {
-
+        initProperties();
         initDataBase();
+        ExecutorService clintExecutorService = Executors.newFixedThreadPool(Integer.valueOf(properties.getProperty("amount.of.request.handlers")));
         ServerSocket server = null;
         BufferedReader br = null;
 // стартуем сервер на порту 3345 и инициализируем переменную для обработки консольных команд с самого сервера
         try {
-            server = new ServerSocket(3345);
+            server = new ServerSocket(Integer.valueOf(properties.getProperty("server.port")));
             br = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Сервер запущен. Ожидание клиентов");
             System.out.println("Для остановки сервера введите quit. " +
@@ -78,6 +81,18 @@ public class ClinicServer {
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
+        }
+    }
+
+    private static void initProperties() {
+        FileInputStream fis;
+
+        try {
+            fis = new FileInputStream("src/main/resources/config.properties");
+            properties.load(fis);
+
+        } catch (IOException e) {
+            System.err.println("Error during initializing property file");
         }
     }
 

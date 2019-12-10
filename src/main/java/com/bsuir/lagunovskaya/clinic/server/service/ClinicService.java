@@ -62,11 +62,13 @@ public class ClinicService {
 
     private void updateDoctor(Doctor doctor) {
         Doctor oldDoctor = doctorDAO.getDoctorById(doctor.getId());
-        ClinicDepartment oldDoctorClinicDepartment = oldDoctor.getClinicDepartment();
+        Integer oldDoctorClinicDepartmentId = oldDoctor.getClinicDepartment().getId();
+        ClinicDepartment oldDoctorClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(oldDoctorClinicDepartmentId);
         oldDoctorClinicDepartment.getDoctors().remove(oldDoctor);
         clinicDepartmentDAO.updateClinicDepartment(oldDoctorClinicDepartment);
         doctorDAO.updateDoctor(doctor);
-        ClinicDepartment newDoctorClinicDepartment = doctor.getClinicDepartment();
+        Integer newDoctorClinicDepartmentId = doctor.getClinicDepartment().getId();
+        ClinicDepartment newDoctorClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(newDoctorClinicDepartmentId);
         newDoctorClinicDepartment.getDoctors().add(doctor);
         clinicDepartmentDAO.updateClinicDepartment(newDoctorClinicDepartment);
 
@@ -82,11 +84,13 @@ public class ClinicService {
 
     private void updatePatient(Patient patient) {
         Patient oldPatient = patientDAO.getPatientById(patient.getId());
-        ClinicDepartment oldPatientClinicDepartment = oldPatient.getClinicDepartment();
+        Integer oldPatientClinicDepartmentId = oldPatient.getClinicDepartment().getId();
+        ClinicDepartment oldPatientClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(oldPatientClinicDepartmentId);
         oldPatientClinicDepartment.getPatients().remove(oldPatient);
         clinicDepartmentDAO.updateClinicDepartment(oldPatientClinicDepartment);
         patientDAO.updatePatient(patient);
-        ClinicDepartment newPatientClinicDepartment = patient.getClinicDepartment();
+        Integer newPatientClinicDepartmentId = patient.getClinicDepartment().getId();
+        ClinicDepartment newPatientClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(newPatientClinicDepartmentId);
         newPatientClinicDepartment.getPatients().add(patient);
         clinicDepartmentDAO.updateClinicDepartment(newPatientClinicDepartment);
     }
