@@ -1,15 +1,18 @@
 package com.bsuir.lagunovskaya.clinic.server.service;
 
+import com.bsuir.lagunovskaya.clinic.communication.entity.Appointment;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Clinic;
 import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
+import com.bsuir.lagunovskaya.clinic.server.dao.AppointmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDepartmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
 import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.PatientDAO;
 
+import java.util.Date;
 import java.util.List;
 
 public class ClinicService {
@@ -19,6 +22,7 @@ public class ClinicService {
     private ClinicDepartmentDAO clinicDepartmentDAO = DAOProvider.getClinicDepartmentDAO();
     private DoctorDAO doctorDAO = DAOProvider.getDoctorDAO();
     private PatientDAO patientDAO = DAOProvider.getPatientDAO();
+    private AppointmentDAO appointmentDAO = DAOProvider.getAppointmentDAO();
 
 
     public Clinic createClinic() {
@@ -121,5 +125,12 @@ public class ClinicService {
             clinicDepartmentDAO.updateClinicDepartment(patientClinicDepartment);
             patientDAO.deletePatientById(patientById.getId());
         }
+    }
+
+    public void createAppointment(String doctorLogin, String patientLogin, Date appointmentDate, String commentToAppointment) {
+        Doctor doctorByLogin = doctorDAO.getDoctorByLogin(doctorLogin);
+        Patient patientByLogin = patientDAO.getPatientByLogin(patientLogin);
+        Appointment newAppointment = new Appointment(doctorByLogin, patientByLogin, appointmentDate, commentToAppointment);
+        appointmentDAO.createAppointment(newAppointment);
     }
 }

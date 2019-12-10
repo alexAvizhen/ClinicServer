@@ -1,7 +1,7 @@
 package com.bsuir.lagunovskaya.clinic.server.service;
 
-import com.bsuir.lagunovskaya.clinic.communication.ClientCommand;
-import com.bsuir.lagunovskaya.clinic.communication.ServerResponse;
+import com.bsuir.lagunovskaya.clinic.communication.command.ClientCommand;
+import com.bsuir.lagunovskaya.clinic.communication.response.ServerResponse;
 import com.bsuir.lagunovskaya.clinic.server.processor.CommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdateDepartmentCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdateDoctorCommandProcessor;

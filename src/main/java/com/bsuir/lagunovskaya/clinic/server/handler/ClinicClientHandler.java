@@ -1,7 +1,7 @@
 package com.bsuir.lagunovskaya.clinic.server.handler;
 
-import com.bsuir.lagunovskaya.clinic.communication.ClientCommand;
-import com.bsuir.lagunovskaya.clinic.communication.ServerResponse;
+import com.bsuir.lagunovskaya.clinic.communication.command.ClientCommand;
+import com.bsuir.lagunovskaya.clinic.communication.response.ServerResponse;
 import com.bsuir.lagunovskaya.clinic.server.service.ClientCommandsManager;
 
 import java.io.IOException;

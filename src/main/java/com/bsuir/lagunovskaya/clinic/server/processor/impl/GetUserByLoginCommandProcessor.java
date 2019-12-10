@@ -1,21 +1,14 @@
 package com.bsuir.lagunovskaya.clinic.server.processor.impl;
 
-import com.bsuir.lagunovskaya.clinic.communication.AllClinicDepartmentsServerResponse;
-import com.bsuir.lagunovskaya.clinic.communication.ClientCommand;
-import com.bsuir.lagunovskaya.clinic.communication.ServerResponse;
-import com.bsuir.lagunovskaya.clinic.communication.UserServerResponse;
-import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
+import com.bsuir.lagunovskaya.clinic.communication.command.ClientCommand;
+import com.bsuir.lagunovskaya.clinic.communication.response.ServerResponse;
+import com.bsuir.lagunovskaya.clinic.communication.response.UserServerResponse;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
-import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
 import com.bsuir.lagunovskaya.clinic.communication.entity.User;
-import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDepartmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
 import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.PatientDAO;
 import com.bsuir.lagunovskaya.clinic.server.processor.CommandProcessor;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class GetUserByLoginCommandProcessor implements CommandProcessor {
 

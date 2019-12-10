@@ -1,8 +1,8 @@
 package com.bsuir.lagunovskaya.clinic.server.processor.impl;
 
-import com.bsuir.lagunovskaya.clinic.communication.ClientCommand;
-import com.bsuir.lagunovskaya.clinic.communication.AllClinicDepartmentsServerResponse;
-import com.bsuir.lagunovskaya.clinic.communication.ServerResponse;
+import com.bsuir.lagunovskaya.clinic.communication.command.ClientCommand;
+import com.bsuir.lagunovskaya.clinic.communication.response.AllClinicDepartmentsServerResponse;
+import com.bsuir.lagunovskaya.clinic.communication.response.ServerResponse;
 import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
 import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDepartmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;

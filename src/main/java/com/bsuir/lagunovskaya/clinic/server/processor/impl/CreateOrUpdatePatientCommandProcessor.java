@@ -1,9 +1,9 @@
 package com.bsuir.lagunovskaya.clinic.server.processor.impl;
 
-import com.bsuir.lagunovskaya.clinic.communication.ClientCommand;
-import com.bsuir.lagunovskaya.clinic.communication.CommonServerResponse;
-import com.bsuir.lagunovskaya.clinic.communication.CreateOrUpdatePatientClientCommand;
-import com.bsuir.lagunovskaya.clinic.communication.ServerResponse;
+import com.bsuir.lagunovskaya.clinic.communication.command.ClientCommand;
+import com.bsuir.lagunovskaya.clinic.communication.response.CommonServerResponse;
+import com.bsuir.lagunovskaya.clinic.communication.command.CreateOrUpdatePatientClientCommand;
+import com.bsuir.lagunovskaya.clinic.communication.response.ServerResponse;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
 import com.bsuir.lagunovskaya.clinic.server.processor.CommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.service.ClinicService;
