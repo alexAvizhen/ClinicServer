@@ -12,6 +12,8 @@ import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
 import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.PatientDAO;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -132,5 +134,16 @@ public class ClinicService {
         Patient patientByLogin = patientDAO.getPatientByLogin(patientLogin);
         Appointment newAppointment = new Appointment(doctorByLogin, patientByLogin, appointmentDate, commentToAppointment);
         appointmentDAO.createAppointment(newAppointment);
+    }
+
+    public Collection<Appointment> getAppointmentsByUserLogin(String userLogin) {
+        List<Appointment> resultAppointments = new ArrayList<>();
+        for (Appointment appointment : appointmentDAO.getAllAppointments()) {
+            if (userLogin.equals(appointment.getDoctor().getLogin()) || userLogin.equals(appointment.getPatient().getLogin())) {
+                resultAppointments.add(appointment);
+            }
+        }
+
+        return resultAppointments;
     }
 }

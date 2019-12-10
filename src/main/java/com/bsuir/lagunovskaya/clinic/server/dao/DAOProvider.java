@@ -1,5 +1,6 @@
 package com.bsuir.lagunovskaya.clinic.server.dao;
 
+import com.bsuir.lagunovskaya.clinic.server.dao.impl.InMemoryAppointmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.impl.InMemoryClinicDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.impl.InMemoryClinicDepartmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.impl.InMemoryDoctorDAO;
@@ -21,5 +22,9 @@ public class DAOProvider {
 
     public static ClinicDepartmentDAO getClinicDepartmentDAO() {
         return InMemoryClinicDepartmentDAO.getInstance();
+    }
+
+    public static AppointmentDAO getAppointmentDAO() {
+        return InMemoryAppointmentDAO.getInstance();
     }
 }

@@ -3,10 +3,12 @@ package com.bsuir.lagunovskaya.clinic.server.service;
 import com.bsuir.lagunovskaya.clinic.communication.command.ClientCommand;
 import com.bsuir.lagunovskaya.clinic.communication.response.ServerResponse;
 import com.bsuir.lagunovskaya.clinic.server.processor.CommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateAppointmentCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdateDepartmentCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdateDoctorCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdatePatientCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetAllClinicDepartmentsCommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetAppointmentsByUserLoginCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetClinicDepartmentByNameCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetUserByLoginCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.LoginCommandProcessor;
@@ -31,6 +33,8 @@ public class ClientCommandsManager {
         commandProcessors.add(new CreateOrUpdatePatientCommandProcessor());
         commandProcessors.add(new RemovePatientByIdCommandProcessor());
         commandProcessors.add(new RemoveDoctorByIdCommandProcessor());
+        commandProcessors.add(new CreateAppointmentCommandProcessor());
+        commandProcessors.add(new GetAppointmentsByUserLoginCommandProcessor());
     }
 
     public ServerResponse processCommand(ClientCommand clientCommand) {
