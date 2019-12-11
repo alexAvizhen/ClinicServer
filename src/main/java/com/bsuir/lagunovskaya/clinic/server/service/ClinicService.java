@@ -12,10 +12,14 @@ import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
 import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.PatientDAO;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClinicService {
 
@@ -145,5 +149,22 @@ public class ClinicService {
         }
 
         return resultAppointments;
+    }
+
+    public Map<String, Integer> getDateAsStrToAmountOfAppointmentsStats(Date startDate, Date endDate) {
+        Map<String, Integer> dateAsStrToAmountMap = new HashMap<>();
+        DateFormat outputFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (Appointment appointment : appointmentDAO.getAllAppointments()) {
+            if (startDate.before(appointment.getAppointmentDate()) && endDate.after(appointment.getAppointmentDate())) {
+                String dateAsStr = outputFormatter.format(appointment.getAppointmentDate());
+                Integer currentAmount = dateAsStrToAmountMap.get(dateAsStr);
+                if (currentAmount == null) {
+                    currentAmount = 0;
+                }
+                currentAmount++;
+                dateAsStrToAmountMap.put(dateAsStr, currentAmount);
+            }
+        }
+        return dateAsStrToAmountMap;
     }
 }

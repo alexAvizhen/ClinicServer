@@ -10,6 +10,7 @@ import com.bsuir.lagunovskaya.clinic.server.processor.impl.CreateOrUpdatePatient
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetAllClinicDepartmentsCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetAppointmentsByUserLoginCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetClinicDepartmentByNameCommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetDateAsStrToAmountOfAppointmentsStatsCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.GetUserByLoginCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.LoginCommandProcessor;
 import com.bsuir.lagunovskaya.clinic.server.processor.impl.RemoveDoctorByIdCommandProcessor;
@@ -35,6 +36,7 @@ public class ClientCommandsManager {
         commandProcessors.add(new RemoveDoctorByIdCommandProcessor());
         commandProcessors.add(new CreateAppointmentCommandProcessor());
         commandProcessors.add(new GetAppointmentsByUserLoginCommandProcessor());
+        commandProcessors.add(new GetDateAsStrToAmountOfAppointmentsStatsCommandProcessor());
     }
 
     public ServerResponse processCommand(ClientCommand clientCommand) {
