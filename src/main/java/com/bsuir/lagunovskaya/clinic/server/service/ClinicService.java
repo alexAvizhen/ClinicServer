@@ -33,7 +33,7 @@ public class ClinicService {
 
     public Clinic createClinic() {
         if (!isClinicCreated) {
-            Clinic clinic = new Clinic("Lidskaya, 14", "Полкиклинника на каменной горке");
+            Clinic clinic = new Clinic("Лидская, 14", "Полкиклинника на каменной горке");
             return clinicDAO.createClinic(clinic);
         }
         return clinicDAO.getClinicById(1);
