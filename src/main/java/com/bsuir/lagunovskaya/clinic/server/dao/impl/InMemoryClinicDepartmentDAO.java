@@ -33,13 +33,12 @@ public class InMemoryClinicDepartmentDAO implements ClinicDepartmentDAO {
     }
 
     @Override
-    public ClinicDepartment updateClinicDepartment(ClinicDepartment clinicDepartment) {
+    public void updateClinicDepartment(ClinicDepartment clinicDepartment) {
         if (idToClinicDepartmentMap.containsKey(clinicDepartment.getId())) {
             idToClinicDepartmentMap.put(clinicDepartment.getId(), clinicDepartment);
         } else {
             throw new UnsupportedOperationException("Department with id " + clinicDepartment.getId() + " was not detected");
         }
-        return clinicDepartment;
     }
 
     @Override

@@ -47,18 +47,17 @@ public class InMemoryPatientDAO implements PatientDAO {
     }
 
     @Override
-    public Patient updatePatient(Patient patient) {
+    public void updatePatient(Patient patient) {
         if (idToPatientMap.containsKey(patient.getId())) {
             idToPatientMap.put(patient.getId(), patient);
         } else {
             throw new UnsupportedOperationException("Patient with id " + patient.getId() + " was not detected");
         }
-        return null;
     }
 
     @Override
-    public Patient deletePatientById(Integer id) {
-        return idToPatientMap.remove(id);
+    public void deletePatientById(Integer id) {
+        idToPatientMap.remove(id);
     }
 
     @Override

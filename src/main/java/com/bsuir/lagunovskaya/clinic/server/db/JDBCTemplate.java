@@ -32,7 +32,7 @@ public class JDBCTemplate {
 
     }
 
-    public <T> T executeSelect(String selectQuery, ResultSetProcessor<T> resultSetProcessor) throws Exception {
+    public <T> T executeSelect(String selectQuery, ResultSetProcessor<T> resultSetProcessor) {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -42,14 +42,23 @@ public class JDBCTemplate {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(selectQuery);
             return resultSetProcessor.processResultSet(resultSet);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            if (resultSet != null) resultSet.close();
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
     }
 
-    public void executeUpdate(String updateQuery, PreparedStatementPostProcessor statementPostProcessor) throws Exception {
+    public void executeUpdate(String updateQuery, PreparedStatementPostProcessor statementPostProcessor) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -59,9 +68,17 @@ public class JDBCTemplate {
             preparedStatement = connection.prepareStatement(updateQuery);
             statementPostProcessor.fillParamsOfPreparedStatement(preparedStatement);
             preparedStatement.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            if (preparedStatement != null) preparedStatement.close();
-            if (connection != null) connection.close();
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

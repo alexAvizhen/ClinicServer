@@ -8,5 +8,5 @@ public interface ClinicDAO {
 
     Clinic getClinicById(Integer id);
 
-    Clinic updateClinic(Clinic clinic);
+    void updateClinic(Clinic clinic);
 }

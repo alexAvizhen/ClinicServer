@@ -4,6 +4,8 @@ import com.bsuir.lagunovskaya.clinic.communication.entity.Clinic;
 import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
+import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDepartmentDAO;
+import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
 import com.bsuir.lagunovskaya.clinic.server.db.JDBCTemplate;
 import com.bsuir.lagunovskaya.clinic.server.handler.ClinicClientHandler;
 import com.bsuir.lagunovskaya.clinic.server.service.ClinicService;
@@ -101,93 +103,20 @@ public class ClinicServer {
     }
 
     private static void initDataBase() {
-        Boolean shouldInitDbOnServerStart = Boolean.valueOf(properties.getProperty("init.db.on.server.start"));
-        if (shouldInitDbOnServerStart) {
-            JDBCTemplate jdbcTemplate = new JDBCTemplate();
-            jdbcTemplate.runScript("src/main/resources/initSqlScript.sql");
-        }
         ClinicService clinicService = new ClinicService();
-        Clinic clinic = clinicService.createClinic();
-        ClinicDepartment clinicDepartmentOne = clinicService.createClinicDepartment(clinic, "Терапевтическое", Arrays.asList("Лидская", "Неманская", "Колесникова", "Кунцевщина"));
-        ClinicDepartment clinicDepartmentTwo = clinicService.createClinicDepartment(clinic, "Неврологическое", new ArrayList<String>());
-        ClinicDepartment clinicDepartmentThree = clinicService.createClinicDepartment(clinic, "Стоматологическое", new ArrayList<String>());
-        ClinicDepartment clinicDepartmentFour = clinicService.createClinicDepartment(clinic, "Травмато-хирургическое", new ArrayList<String>());
-        ClinicDepartment clinicDepartmentFive = clinicService.createClinicDepartment(clinic, "Регистратура", new ArrayList<String>());
+        if (DAOProvider.usedDb) {
+            if (Boolean.valueOf(properties.getProperty("init.db.on.server.start"))) {
+                JDBCTemplate jdbcTemplate = new JDBCTemplate();
+                jdbcTemplate.runScript("src/main/resources/initSqlScript.sql");
+            }
+        } else {
+            Clinic clinic = clinicService.createClinic();
+            ClinicDepartment clinicDepartmentOne = clinicService.createClinicDepartment(clinic, "Терапевтическое", new ArrayList<String>());
 
-        Doctor doctor = new Doctor("фрол", "фрол", clinicDepartmentOne.getId());
-        doctor.setPhoneNumber("3337922");
-        doctor.setName("Альфред");
-        doctor.setSurname("Фролов");
-        doctor.setBirthDate(generateDateByOld(45));
-        clinicService.createOrUpdateDoctor(doctor);
+            Doctor rootDoctor = new Doctor("root", "root", clinicDepartmentOne.getId());
+            clinicService.createOrUpdateDoctor(rootDoctor);
+        }
 
-        doctor = new Doctor("кудр", "кудр", clinicDepartmentOne.getId());
-        doctor.setPhoneNumber("3447922");
-        doctor.setName("Артём");
-        doctor.setSurname("Кудрявцев");
-        doctor.setBirthDate(generateDateByOld(35));
-        clinicService.createOrUpdateDoctor(doctor);
-
-        doctor = new Doctor("комисс", "комисс", clinicDepartmentTwo.getId());
-        doctor.setPhoneNumber("5647922");
-        doctor.setName("Злата");
-        doctor.setSurname("Комиссарова");
-        doctor.setBirthDate(generateDateByOld(38));
-        clinicService.createOrUpdateDoctor(doctor);
-
-        doctor = new Doctor("мурав", "мурав", clinicDepartmentTwo.getId());
-        doctor.setPhoneNumber("8647952");
-        doctor.setName("Александр");
-        doctor.setSurname("Муравьёв");
-        doctor.setBirthDate(generateDateByOld(38));
-        clinicService.createOrUpdateDoctor(doctor);
-
-        doctor = new Doctor("сухан", "сухан", clinicDepartmentThree.getId());
-        doctor.setPhoneNumber("8547352");
-        doctor.setName("Валерий");
-        doctor.setSurname("Суханов");
-        doctor.setBirthDate(generateDateByOld(38));
-        clinicService.createOrUpdateDoctor(doctor);
-
-        doctor = new Doctor("исак", "исак", clinicDepartmentThree.getId());
-        doctor.setPhoneNumber("1647452");
-        doctor.setName("Влада");
-        doctor.setSurname("Исакова");
-        doctor.setBirthDate(generateDateByOld(48));
-        clinicService.createOrUpdateDoctor(doctor);
-
-        doctor = new Doctor("каныг", "каныг", clinicDepartmentFour.getId());
-        doctor.setPhoneNumber("3747452");
-        doctor.setName("Игнатий");
-        doctor.setSurname("Каныгин");
-        doctor.setBirthDate(generateDateByOld(58));
-        clinicService.createOrUpdateDoctor(doctor);
-
-        doctor = new Doctor("петух", "петух", clinicDepartmentFive.getId());
-        doctor.setPhoneNumber("3723452");
-        doctor.setName("Мария");
-        doctor.setSurname("Петухова");
-        doctor.setBirthDate(generateDateByOld(28));
-        clinicService.createOrUpdateDoctor(doctor);
-
-        Patient patient = new Patient("кулик", "кулик", clinicDepartmentOne.getId());
-        patient.setPhoneNumber("33234567");
-        patient.setName("Василий");
-        patient.setSurname("Куликов");
-        patient.setBirthDate(generateDateByOld(34));
-        patient.setAddress("Лещинского, 16");
-        clinicService.createOrUpdatePatient(patient);
-
-        patient = new Patient("русак", "русак", clinicDepartmentOne.getId());
-        patient.setPhoneNumber("22234567");
-        patient.setName("Давид");
-        patient.setSurname("Русаков");
-        patient.setBirthDate(generateDateByOld(37));
-        patient.setAddress("Неманская, 91");
-        clinicService.createOrUpdatePatient(patient);
-
-        Doctor rootDoctor = new Doctor("root", "root", clinicDepartmentOne.getId());
-        clinicService.createOrUpdateDoctor(rootDoctor);
     }
 
     private static Date generateDateByOld(int old) {

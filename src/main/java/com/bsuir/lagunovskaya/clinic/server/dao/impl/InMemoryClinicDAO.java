@@ -37,12 +37,11 @@ public class InMemoryClinicDAO implements ClinicDAO {
     }
 
     @Override
-    public Clinic updateClinic(Clinic clinic) {
+    public void updateClinic(Clinic clinic) {
         if (idToClinicMap.containsKey(clinic.getId())) {
             idToClinicMap.put(clinic.getId(), clinic);
         } else {
             throw new UnsupportedOperationException("Clinic with id " + clinic.getId() + " was not detected");
         }
-        return clinic;
     }
 }

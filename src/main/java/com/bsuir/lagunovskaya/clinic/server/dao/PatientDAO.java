@@ -12,9 +12,9 @@ public interface PatientDAO {
 
     Patient createPatient(Patient patient);
 
-    Patient updatePatient(Patient patient);
+    void updatePatient(Patient patient);
 
-    Patient deletePatientById(Integer id);
+    void deletePatientById(Integer id);
 
     Collection<Patient> getAllPatients();
 }

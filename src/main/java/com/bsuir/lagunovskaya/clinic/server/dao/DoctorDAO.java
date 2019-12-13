@@ -11,9 +11,9 @@ public interface DoctorDAO {
 
     Doctor createDoctor(Doctor doctor);
 
-    Doctor updateDoctor(Doctor doctor);
+    void updateDoctor(Doctor doctor);
 
-    Doctor deleteDoctorById(Integer id);
+    void deleteDoctorById(Integer id);
 
     Collection<Doctor> getAllDoctors();
 }

@@ -8,7 +8,7 @@ public interface ClinicDepartmentDAO {
 
     ClinicDepartment createClinicDepartment(ClinicDepartment clinicDepartment);
 
-    ClinicDepartment updateClinicDepartment(ClinicDepartment clinicDepartment);
+    void updateClinicDepartment(ClinicDepartment clinicDepartment);
 
     ClinicDepartment getClinicDepartmentById(Integer id);
 

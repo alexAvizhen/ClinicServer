@@ -47,18 +47,17 @@ public class InMemoryDoctorDAO implements DoctorDAO {
     }
 
     @Override
-    public Doctor updateDoctor(Doctor doctor) {
+    public void updateDoctor(Doctor doctor) {
         if (idToDoctorMap.containsKey(doctor.getId())) {
             idToDoctorMap.put(doctor.getId(), doctor);
         } else {
             throw new UnsupportedOperationException("Doctor with id " + doctor.getId() + " was not detected");
         }
-        return doctor;
     }
 
     @Override
-    public Doctor deleteDoctorById(Integer id) {
-        return idToDoctorMap.remove(id);
+    public void deleteDoctorById(Integer id) {
+        idToDoctorMap.remove(id);
     }
 
     @Override
