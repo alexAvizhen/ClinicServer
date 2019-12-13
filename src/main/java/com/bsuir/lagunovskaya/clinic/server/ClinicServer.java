@@ -114,63 +114,63 @@ public class ClinicServer {
         ClinicDepartment clinicDepartmentFour = clinicService.createClinicDepartment(clinic, "Травмато-хирургическое", new ArrayList<String>());
         ClinicDepartment clinicDepartmentFive = clinicService.createClinicDepartment(clinic, "Регистратура", new ArrayList<String>());
 
-        Doctor doctor = new Doctor("фрол", "фрол", clinicDepartmentOne);
+        Doctor doctor = new Doctor("фрол", "фрол", clinicDepartmentOne.getId());
         doctor.setPhoneNumber("3337922");
         doctor.setName("Альфред");
         doctor.setSurname("Фролов");
         doctor.setBirthDate(generateDateByOld(45));
         clinicService.createOrUpdateDoctor(doctor);
 
-        doctor = new Doctor("кудр", "кудр", clinicDepartmentOne);
+        doctor = new Doctor("кудр", "кудр", clinicDepartmentOne.getId());
         doctor.setPhoneNumber("3447922");
         doctor.setName("Артём");
         doctor.setSurname("Кудрявцев");
         doctor.setBirthDate(generateDateByOld(35));
         clinicService.createOrUpdateDoctor(doctor);
 
-        doctor = new Doctor("комисс", "комисс", clinicDepartmentTwo);
+        doctor = new Doctor("комисс", "комисс", clinicDepartmentTwo.getId());
         doctor.setPhoneNumber("5647922");
         doctor.setName("Злата");
         doctor.setSurname("Комиссарова");
         doctor.setBirthDate(generateDateByOld(38));
         clinicService.createOrUpdateDoctor(doctor);
 
-        doctor = new Doctor("мурав", "мурав", clinicDepartmentTwo);
+        doctor = new Doctor("мурав", "мурав", clinicDepartmentTwo.getId());
         doctor.setPhoneNumber("8647952");
         doctor.setName("Александр");
         doctor.setSurname("Муравьёв");
         doctor.setBirthDate(generateDateByOld(38));
         clinicService.createOrUpdateDoctor(doctor);
 
-        doctor = new Doctor("сухан", "сухан", clinicDepartmentThree);
+        doctor = new Doctor("сухан", "сухан", clinicDepartmentThree.getId());
         doctor.setPhoneNumber("8547352");
         doctor.setName("Валерий");
         doctor.setSurname("Суханов");
         doctor.setBirthDate(generateDateByOld(38));
         clinicService.createOrUpdateDoctor(doctor);
 
-        doctor = new Doctor("исак", "исак", clinicDepartmentThree);
+        doctor = new Doctor("исак", "исак", clinicDepartmentThree.getId());
         doctor.setPhoneNumber("1647452");
         doctor.setName("Влада");
         doctor.setSurname("Исакова");
         doctor.setBirthDate(generateDateByOld(48));
         clinicService.createOrUpdateDoctor(doctor);
 
-        doctor = new Doctor("каныг", "каныг", clinicDepartmentFour);
+        doctor = new Doctor("каныг", "каныг", clinicDepartmentFour.getId());
         doctor.setPhoneNumber("3747452");
         doctor.setName("Игнатий");
         doctor.setSurname("Каныгин");
         doctor.setBirthDate(generateDateByOld(58));
         clinicService.createOrUpdateDoctor(doctor);
 
-        doctor = new Doctor("петух", "петух", clinicDepartmentFive);
+        doctor = new Doctor("петух", "петух", clinicDepartmentFive.getId());
         doctor.setPhoneNumber("3723452");
         doctor.setName("Мария");
         doctor.setSurname("Петухова");
         doctor.setBirthDate(generateDateByOld(28));
         clinicService.createOrUpdateDoctor(doctor);
 
-        Patient patient = new Patient("кулик", "кулик", clinicDepartmentOne);
+        Patient patient = new Patient("кулик", "кулик", clinicDepartmentOne.getId());
         patient.setPhoneNumber("33234567");
         patient.setName("Василий");
         patient.setSurname("Куликов");
@@ -178,7 +178,7 @@ public class ClinicServer {
         patient.setAddress("Лещинского, 16");
         clinicService.createOrUpdatePatient(patient);
 
-        patient = new Patient("русак", "русак", clinicDepartmentOne);
+        patient = new Patient("русак", "русак", clinicDepartmentOne.getId());
         patient.setPhoneNumber("22234567");
         patient.setName("Давид");
         patient.setSurname("Русаков");
@@ -186,7 +186,7 @@ public class ClinicServer {
         patient.setAddress("Неманская, 91");
         clinicService.createOrUpdatePatient(patient);
 
-        Doctor rootDoctor = new Doctor("root", "root", clinicDepartmentOne);
+        Doctor rootDoctor = new Doctor("root", "root", clinicDepartmentOne.getId());
         clinicService.createOrUpdateDoctor(rootDoctor);
     }
 

@@ -1,25 +1,20 @@
 package com.bsuir.lagunovskaya.clinic.server.processor.impl;
 
 import com.bsuir.lagunovskaya.clinic.communication.command.ClientCommand;
+import com.bsuir.lagunovskaya.clinic.communication.entity.User;
 import com.bsuir.lagunovskaya.clinic.communication.response.LoginServerResponse;
 import com.bsuir.lagunovskaya.clinic.communication.response.ServerResponse;
-import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
-import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
-import com.bsuir.lagunovskaya.clinic.server.dao.PatientDAO;
-import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
-import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
 import com.bsuir.lagunovskaya.clinic.server.processor.CommandProcessor;
+import com.bsuir.lagunovskaya.clinic.server.service.ClinicService;
 
 import java.util.List;
 
 public class LoginCommandProcessor implements CommandProcessor {
 
-    private PatientDAO patientDAO;
-    private DoctorDAO doctorDAO;
+    private ClinicService clinicService;
 
     public LoginCommandProcessor() {
-        patientDAO = DAOProvider.getPatientDAO();
-        doctorDAO = DAOProvider.getDoctorDAO();
+        clinicService = new ClinicService();
     }
 
     @Override
@@ -33,24 +28,10 @@ public class LoginCommandProcessor implements CommandProcessor {
         String login = commandParams.get(0);
         String password = commandParams.get(1);
 
-        Doctor doctorByLogin = doctorDAO.getDoctorByLogin(login);
-        LoginServerResponse failedLoginServerResponse = new LoginServerResponse("failed");
-        if (doctorByLogin != null) {
-            if (password.equals(doctorByLogin.getPassword())) {
-                return new LoginServerResponse("success", doctorByLogin);
-            } else {
-                return failedLoginServerResponse;
-            }
-
+        User userByLogin = clinicService.getUserByLogin(login);
+        if (userByLogin != null && password.equals(userByLogin.getPassword())) {
+            return new LoginServerResponse("success", userByLogin);
         }
-        Patient patientByLogin = patientDAO.getPatientByLogin(login);
-        if (patientByLogin != null) {
-            if (password.equals(patientByLogin.getPassword())) {
-                return new LoginServerResponse("success", patientByLogin);
-            } else {
-                return failedLoginServerResponse;
-            }
-        }
-        return failedLoginServerResponse;
+        return new LoginServerResponse("failed");
     }
 }

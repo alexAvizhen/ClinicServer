@@ -1,10 +1,7 @@
 package com.bsuir.lagunovskaya.clinic.server.dao.impl;
 
-import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
-import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDepartmentDAO;
-import com.bsuir.lagunovskaya.clinic.server.dao.DAOProvider;
-import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
+import com.bsuir.lagunovskaya.clinic.server.dao.DoctorDAO;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,8 +10,6 @@ import java.util.Map;
 public class InMemoryDoctorDAO implements DoctorDAO {
     private Map<Integer, Doctor> idToDoctorMap = new HashMap<>();
     private Integer doctorIdCounter = 1;
-
-    private ClinicDepartmentDAO clinicDepartmentDAO = DAOProvider.getClinicDepartmentDAO();
 
     private static InMemoryDoctorDAO INSTANCE = null;
 

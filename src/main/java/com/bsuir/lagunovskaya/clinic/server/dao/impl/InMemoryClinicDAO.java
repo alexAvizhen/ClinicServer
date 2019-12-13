@@ -1,7 +1,7 @@
 package com.bsuir.lagunovskaya.clinic.server.dao.impl;
 
-import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDAO;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Clinic;
+import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDAO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +38,11 @@ public class InMemoryClinicDAO implements ClinicDAO {
 
     @Override
     public Clinic updateClinic(Clinic clinic) {
-        return null;
+        if (idToClinicMap.containsKey(clinic.getId())) {
+            idToClinicMap.put(clinic.getId(), clinic);
+        } else {
+            throw new UnsupportedOperationException("Clinic with id " + clinic.getId() + " was not detected");
+        }
+        return clinic;
     }
 }

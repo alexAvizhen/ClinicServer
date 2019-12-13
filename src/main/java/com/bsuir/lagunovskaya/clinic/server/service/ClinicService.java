@@ -5,6 +5,7 @@ import com.bsuir.lagunovskaya.clinic.communication.entity.Clinic;
 import com.bsuir.lagunovskaya.clinic.communication.entity.ClinicDepartment;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Doctor;
 import com.bsuir.lagunovskaya.clinic.communication.entity.Patient;
+import com.bsuir.lagunovskaya.clinic.communication.entity.User;
 import com.bsuir.lagunovskaya.clinic.server.dao.AppointmentDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDAO;
 import com.bsuir.lagunovskaya.clinic.server.dao.ClinicDepartmentDAO;
@@ -40,9 +41,10 @@ public class ClinicService {
     }
 
     public ClinicDepartment createClinicDepartment(Clinic clinic, String departmentName, List<String> streets) {
-        ClinicDepartment clinicDepartment = new ClinicDepartment(clinic, departmentName, streets);
+        ClinicDepartment clinicDepartment = new ClinicDepartment(clinic.getId(), departmentName, streets);
         ClinicDepartment createdClinicDep = clinicDepartmentDAO.createClinicDepartment(clinicDepartment);
-        clinic.getClinicDepartments().add(createdClinicDep);
+        clinic.getClinicDepartmentIds().add(createdClinicDep.getId());
+        clinicDAO.updateClinic(clinic);
         return createdClinicDep;
     }
 
@@ -63,23 +65,24 @@ public class ClinicService {
     }
 
     private void createDoctor(Doctor doctor) {
-        doctorDAO.createDoctor(doctor);
-        ClinicDepartment doctorClinicDepartment = doctor.getClinicDepartment();
-        doctorClinicDepartment.getDoctors().add(doctor);
+        Doctor createdDoctor = doctorDAO.createDoctor(doctor);
+        Integer clinicDepartmentId = doctor.getClinicDepartmentId();
+        ClinicDepartment doctorClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(clinicDepartmentId);
+        doctorClinicDepartment.getDoctorIds().add(createdDoctor.getId());
 
         clinicDepartmentDAO.updateClinicDepartment(doctorClinicDepartment);
     }
 
     private void updateDoctor(Doctor doctor) {
         Doctor oldDoctor = doctorDAO.getDoctorById(doctor.getId());
-        Integer oldDoctorClinicDepartmentId = oldDoctor.getClinicDepartment().getId();
+        Integer oldDoctorClinicDepartmentId = oldDoctor.getClinicDepartmentId();
         ClinicDepartment oldDoctorClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(oldDoctorClinicDepartmentId);
-        oldDoctorClinicDepartment.getDoctors().remove(oldDoctor);
+        oldDoctorClinicDepartment.getDoctorIds().remove(oldDoctor.getId());
         clinicDepartmentDAO.updateClinicDepartment(oldDoctorClinicDepartment);
         doctorDAO.updateDoctor(doctor);
-        Integer newDoctorClinicDepartmentId = doctor.getClinicDepartment().getId();
+        Integer newDoctorClinicDepartmentId = doctor.getClinicDepartmentId();
         ClinicDepartment newDoctorClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(newDoctorClinicDepartmentId);
-        newDoctorClinicDepartment.getDoctors().add(doctor);
+        newDoctorClinicDepartment.getDoctorIds().add(doctor.getId());
         clinicDepartmentDAO.updateClinicDepartment(newDoctorClinicDepartment);
 
     }
@@ -94,21 +97,22 @@ public class ClinicService {
 
     private void updatePatient(Patient patient) {
         Patient oldPatient = patientDAO.getPatientById(patient.getId());
-        Integer oldPatientClinicDepartmentId = oldPatient.getClinicDepartment().getId();
+        Integer oldPatientClinicDepartmentId = oldPatient.getClinicDepartmentId();
         ClinicDepartment oldPatientClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(oldPatientClinicDepartmentId);
-        oldPatientClinicDepartment.getPatients().remove(oldPatient);
+        oldPatientClinicDepartment.getPatientIds().remove(oldPatient.getId());
         clinicDepartmentDAO.updateClinicDepartment(oldPatientClinicDepartment);
         patientDAO.updatePatient(patient);
-        Integer newPatientClinicDepartmentId = patient.getClinicDepartment().getId();
+        Integer newPatientClinicDepartmentId = patient.getClinicDepartmentId();
         ClinicDepartment newPatientClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(newPatientClinicDepartmentId);
-        newPatientClinicDepartment.getPatients().add(patient);
+        newPatientClinicDepartment.getPatientIds().add(patient.getId());
         clinicDepartmentDAO.updateClinicDepartment(newPatientClinicDepartment);
     }
 
     private void createPatient(Patient patient) {
         patientDAO.createPatient(patient);
-        ClinicDepartment patientClinicDepartment = patient.getClinicDepartment();
-        patientClinicDepartment.getPatients().add(patient);
+        Integer clinicDepartmentId = patient.getClinicDepartmentId();
+        ClinicDepartment patientClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(clinicDepartmentId);
+        patientClinicDepartment.getPatientIds().add(patient.getId());
 
         clinicDepartmentDAO.updateClinicDepartment(patientClinicDepartment);
     }
@@ -116,8 +120,9 @@ public class ClinicService {
     public void removeDoctorById(Integer doctorId) {
         Doctor doctorById = doctorDAO.getDoctorById(doctorId);
         if (doctorById != null) {
-            ClinicDepartment doctorClinicDepartment = doctorById.getClinicDepartment();
-            doctorClinicDepartment.getDoctors().remove(doctorById);
+            Integer clinicDepartmentId = doctorById.getClinicDepartmentId();
+            ClinicDepartment doctorClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(clinicDepartmentId);
+            doctorClinicDepartment.getDoctorIds().remove(doctorById.getId());
             clinicDepartmentDAO.updateClinicDepartment(doctorClinicDepartment);
             doctorDAO.deleteDoctorById(doctorById.getId());
         }
@@ -126,8 +131,9 @@ public class ClinicService {
     public void removePatientById(Integer patientId) {
         Patient patientById = patientDAO.getPatientById(patientId);
         if (patientById != null) {
-            ClinicDepartment patientClinicDepartment = patientById.getClinicDepartment();
-            patientClinicDepartment.getPatients().remove(patientById);
+            Integer clinicDepartmentId = patientById.getClinicDepartmentId();
+            ClinicDepartment patientClinicDepartment = clinicDepartmentDAO.getClinicDepartmentById(clinicDepartmentId);
+            patientClinicDepartment.getPatientIds().remove(patientById.getId());
             clinicDepartmentDAO.updateClinicDepartment(patientClinicDepartment);
             patientDAO.deletePatientById(patientById.getId());
         }
@@ -136,14 +142,28 @@ public class ClinicService {
     public void createAppointment(String doctorLogin, String patientLogin, Date appointmentDate, String commentToAppointment) {
         Doctor doctorByLogin = doctorDAO.getDoctorByLogin(doctorLogin);
         Patient patientByLogin = patientDAO.getPatientByLogin(patientLogin);
-        Appointment newAppointment = new Appointment(doctorByLogin, patientByLogin, appointmentDate, commentToAppointment);
+        Appointment newAppointment = new Appointment(doctorByLogin.getId(), patientByLogin.getId(), appointmentDate, commentToAppointment);
         appointmentDAO.createAppointment(newAppointment);
     }
 
+    public User getUserByLogin(String userLogin) {
+        Doctor doctorByLogin = doctorDAO.getDoctorByLogin(userLogin);
+        if (doctorByLogin != null) {
+            return doctorByLogin;
+        } else {
+            return patientDAO.getPatientByLogin(userLogin);
+        }
+    }
+
     public Collection<Appointment> getAppointmentsByUserLogin(String userLogin) {
+        User userByLogin = getUserByLogin(userLogin);
+        if (userByLogin == null) {
+            return new ArrayList<>();
+        }
+        Integer userLoginId = userByLogin.getId();
         List<Appointment> resultAppointments = new ArrayList<>();
         for (Appointment appointment : appointmentDAO.getAllAppointments()) {
-            if (userLogin.equals(appointment.getDoctor().getLogin()) || userLogin.equals(appointment.getPatient().getLogin())) {
+            if (userLoginId.equals(appointment.getDoctorId()) || userLoginId.equals(appointment.getPatientId())) {
                 resultAppointments.add(appointment);
             }
         }
